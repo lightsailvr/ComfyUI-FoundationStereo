@@ -13,13 +13,13 @@ _PACKAGE_DIR = os.path.dirname(__file__)
 if _PACKAGE_DIR not in sys.path:
     sys.path.insert(0, _PACKAGE_DIR)
 
-from nodes.model_loader import FoundationStereoModelLoader
-from nodes.run_inference import FoundationStereoRun
-from nodes.stereo_warp import StereoWarp
-from nodes.occlusion_mask import OcclusionMask
-from nodes.disparity_to_depth import DisparityToDepth
-from nodes.depth_visualization import DepthVisualization
-from nodes.depth_to_pointcloud import DepthToPointCloud
+from foundation_stereo_nodes.model_loader import FoundationStereoModelLoader
+from foundation_stereo_nodes.run_inference import FoundationStereoRun
+from foundation_stereo_nodes.stereo_warp import StereoWarp
+from foundation_stereo_nodes.occlusion_mask import OcclusionMask
+from foundation_stereo_nodes.disparity_to_depth import DisparityToDepth
+from foundation_stereo_nodes.depth_visualization import DepthVisualization
+from foundation_stereo_nodes.depth_to_pointcloud import DepthToPointCloud
 
 NODE_CLASS_MAPPINGS = {
     "FoundationStereoModelLoader": FoundationStereoModelLoader,
