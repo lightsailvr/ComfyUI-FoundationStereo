@@ -36,20 +36,20 @@ cd ComfyUI/custom_nodes/ComfyUI-FoundationStereo
 pip install -r requirements.txt
 ```
 
-### 3. Download model weights
+### 3. Model weights (auto-downloaded)
 
-Download from [Google Drive](https://drive.google.com/drive/folders/1VhPebc_mMxWKccrv7pdQLTvXYVcLYpsf?usp=sharing) and place the folder(s) in:
+**Models download automatically** from HuggingFace the first time you use the Model Loader node. No manual setup needed.
 
+Available models:
+- **23-51-11** (ViT-Large, ~3.3 GB) — Best quality, recommended
+- **11-33-40** (ViT-Small, ~788 MB) — Faster inference
+
+Weights are cached in `FoundationStereo/pretrained_models/` so they only download once.
+
+If you prefer to download manually, get them from [Google Drive](https://drive.google.com/drive/folders/1VhPebc_mMxWKccrv7pdQLTvXYVcLYpsf?usp=sharing) and place them in:
 ```
-ComfyUI-FoundationStereo/
-  FoundationStereo/
-    pretrained_models/
-      23-51-11/          <-- Best quality (ViT-Large)
-        model_best_bp2.pth
-        cfg.yaml
-      11-33-40/          <-- Faster (ViT-Small)
-        model_best_bp2.pth
-        cfg.yaml
+ComfyUI-FoundationStereo/FoundationStereo/pretrained_models/23-51-11/model_best_bp2.pth
+ComfyUI-FoundationStereo/FoundationStereo/pretrained_models/23-51-11/cfg.yaml
 ```
 
 ### 4. Restart ComfyUI
