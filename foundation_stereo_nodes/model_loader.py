@@ -28,16 +28,35 @@ _HF_REPOS = {
     },
 }
 
-# Default cfg for the ViT-Small model (11-33-40) when cfg.yaml isn't available
-_DEFAULT_CFG_VITS = {
-    "hidden_dims": [128, 96, 64],
-    "max_disp": 192,
-    "n_gru_layers": 3,
-    "n_downsample": 3,
-    "corr_levels": 2,
-    "corr_radius": 4,
-    "mixed_precision": True,
-    "vit_size": "vits",
+# Built-in configs matching the official checkpoints.
+# These are used as fallback if cfg.yaml isn't downloaded or is missing.
+_DEFAULT_CONFIGS = {
+    "23-51-11": {
+        "hidden_dims": [128, 128, 128],
+        "max_disp": 416,
+        "n_gru_layers": 3,
+        "n_downsample": 2,
+        "corr_levels": 2,
+        "corr_radius": 4,
+        "corr_implementation": "reg",
+        "mixed_precision": True,
+        "vit_size": "vitl",
+        "valid_iters": 32,
+        "slow_fast_gru": False,
+    },
+    "11-33-40": {
+        "hidden_dims": [128, 128, 128],
+        "max_disp": 416,
+        "n_gru_layers": 3,
+        "n_downsample": 2,
+        "corr_levels": 2,
+        "corr_radius": 4,
+        "corr_implementation": "reg",
+        "mixed_precision": True,
+        "vit_size": "vits",
+        "valid_iters": 32,
+        "slow_fast_gru": False,
+    },
 }
 
 
@@ -109,7 +128,7 @@ class FoundationStereoModelLoader:
             cfg = OmegaConf.load(cfg_path)
         else:
             logger.info(f"Using built-in default config for {model_id}")
-            cfg = OmegaConf.create(_DEFAULT_CFG_VITS if model_id == "11-33-40" else {})
+            cfg = OmegaConf.create(_DEFAULT_CONFIGS[model_id])
 
         if "vit_size" not in cfg:
             cfg["vit_size"] = _HF_REPOS[model_id]["vit_size_default"]
