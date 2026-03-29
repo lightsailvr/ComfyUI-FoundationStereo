@@ -34,6 +34,15 @@ class DepthToPointCloud:
 
     def generate(self, depth_raw, color_image, focal_length, cx, cy, output_path,
                  z_far=10.0, denoise=True, denoise_nb_points=30, denoise_radius=0.03):
+        try:
+            import open3d  # noqa: F401 — verify real open3d is installed
+            open3d.geometry.PointCloud  # will fail on stub
+        except (ImportError, AttributeError):
+            raise RuntimeError(
+                "open3d is required for point cloud export but is not installed. "
+                "Your Python version may not be supported — open3d currently requires Python <=3.12. "
+                "Install with: pip install open3d"
+            )
         depth = depth_raw.copy()
         color_np = comfy_image_to_numpy(color_image)  # (H, W, 3) float [0,1]
         color_uint8 = (color_np * 255).astype(np.uint8)
