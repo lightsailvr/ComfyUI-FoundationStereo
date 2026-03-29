@@ -122,6 +122,49 @@ def _fill_nearest(warped: np.ndarray, mask: np.ndarray):
                 warped[y, x] = warped[y, last_valid]
 
 
+def depth2xyzmap(depth: np.ndarray, K, uvs: np.ndarray = None, zmin=0.1):
+    """Convert a depth map to an XYZ point map using camera intrinsics.
+
+    Adapted from FoundationStereo/Utils.py to avoid heavy transitive imports.
+    """
+    invalid_mask = depth < zmin
+    H, W = depth.shape[:2]
+    if uvs is None:
+        vs, us = np.meshgrid(np.arange(0, H), np.arange(0, W), sparse=False, indexing='ij')
+        vs = vs.reshape(-1)
+        us = us.reshape(-1)
+    else:
+        uvs = uvs.round().astype(int)
+        us = uvs[:, 0]
+        vs = uvs[:, 1]
+    zs = depth[vs, us]
+    xs = (us - K[0, 2]) * zs / K[0, 0]
+    ys = (vs - K[1, 2]) * zs / K[1, 1]
+    pts = np.stack((xs.reshape(-1), ys.reshape(-1), zs.reshape(-1)), 1)
+    xyz_map = np.zeros((H, W, 3), dtype=np.float32)
+    xyz_map[vs, us] = pts
+    if invalid_mask.any():
+        xyz_map[invalid_mask] = 0
+    return xyz_map
+
+
+def toOpen3dCloud(points, colors=None, normals=None):
+    """Create an Open3D point cloud from numpy arrays.
+
+    Adapted from FoundationStereo/Utils.py to avoid heavy transitive imports.
+    """
+    import open3d as o3d
+    cloud = o3d.geometry.PointCloud()
+    cloud.points = o3d.utility.Vector3dVector(points.astype(np.float64))
+    if colors is not None:
+        if colors.max() > 1:
+            colors = colors / 255.0
+        cloud.colors = o3d.utility.Vector3dVector(colors.astype(np.float64))
+    if normals is not None:
+        cloud.normals = o3d.utility.Vector3dVector(normals.astype(np.float64))
+    return cloud
+
+
 def compute_occlusion_mask(disparity: np.ndarray,
                            direction: str = "left_to_right",
                            dilate_pixels: int = 0) -> np.ndarray:

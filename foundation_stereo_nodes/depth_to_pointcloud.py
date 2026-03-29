@@ -1,16 +1,7 @@
 import os
 import numpy as np
-import open3d as o3d
 
-import sys
-_FOUNDATION_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "FoundationStereo")
-)
-if _FOUNDATION_DIR not in sys.path:
-    sys.path.insert(0, _FOUNDATION_DIR)
-
-from Utils import depth2xyzmap, toOpen3dCloud
-from stereo_utils import comfy_image_to_numpy
+from stereo_utils import comfy_image_to_numpy, depth2xyzmap, toOpen3dCloud
 
 
 class DepthToPointCloud:
@@ -78,6 +69,7 @@ class DepthToPointCloud:
         # Ensure output directory exists
         abs_path = os.path.abspath(output_path)
         os.makedirs(os.path.dirname(abs_path), exist_ok=True)
+        import open3d as o3d
         o3d.io.write_point_cloud(abs_path, pcd)
 
         return (abs_path,)
