@@ -1,0 +1,8 @@
+omegaconf
+opencv-python
+timm
+open3d
+einops
+huggingface-hub
+imageio
+scipy

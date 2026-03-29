@@ -1,0 +1,14 @@
+[project]
+name = "comfyui-foundationstereo"
+version = "0.1.0"
+description = "ComfyUI nodes for FoundationStereo stereo depth estimation — disparity mapping, stereo warping, and 3D point cloud generation for VFX stereoscopic workflows."
+license = { text = "MIT" }
+requires-python = ">=3.10"
+
+[project.urls]
+Repository = "https://github.com/lightsailvr/ComfyUI-FoundationStereo"
+
+[tool.comfy]
+PublisherId = "lightsailvr"
+DisplayName = "FoundationStereo Nodes"
+requires-comfyui = ">=0.1.0"
